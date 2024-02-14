@@ -16,3 +16,9 @@ On installe le symfony/apache-pack
 ```bash
 composer require symfony/apache-pack
 ```
+
+## Installation de Twig
+
+```bash
+composer require twig
+```
