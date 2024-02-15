@@ -8,8 +8,10 @@
             <div class="col">
                 <div
                     class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
-                    <div class="col-4 movie__poster img-thumbnail">
-                        <img src="{{ asset(movie.poster) }}" class="img-fluid">
+                        <div class="col-4 movie__poster img-thumbnail"
+                        style="background-image: url({{movie.poster}});">
+                        <img src="{{ asset('images/poster-placeholder.png') }}" class="img-fluid">
+                        
                     </div>
 
                     <div class="col-8 p-4 d-flex flex-column position-static bg-light">
