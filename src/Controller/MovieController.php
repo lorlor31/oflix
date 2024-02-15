@@ -90,6 +90,13 @@ class MovieController extends AbstractController
     public function show(int $id): Response
     {
         $movie = Data::getOneById($id);
+
+        if (empty($movie))
+        {
+            // le film n'existe pas en BDD
+            // 404
+            throw $this->createNotFoundException('Le film demandé n\'existe pas');
+        }
         $movie['id'] = $id;
 
         return $this->render('movie/show.html.twig', [
