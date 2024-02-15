@@ -12,6 +12,20 @@ use Symfony\Component\Routing\Attribute\Route;
 class MovieController extends AbstractController
 {
 
+    #[Route('/favorites', name: 'favorites', methods: ['GET'])]
+    public function favorites(Request $req): Response
+    {
+        // récupérer les données 
+        // ici les films dans la session
+        $session = $req->getSession();
+        $favoriteMovies = $session->get('favorite_movies', []);
+
+        //todo dynamiser la page favorites
+        return $this->render('movie/favorites.html.twig', [
+            'movieList' => $favoriteMovies
+        ]);
+    }
+    
     #[Route('/favorites/{id<\d+>}', name: 'favorites_add', methods: ['GET'])]
     public function favoritesAdd(int $id, Request $request): Response
     {
@@ -40,11 +54,27 @@ class MovieController extends AbstractController
 
     }
     
-    #[Route('/favorites', name: 'favorites', methods: ['GET'])]
-    public function favorites(): Response
+    #[Route('/favorites/remove/{id<\d+>}', name: 'favorites_remove', methods: ['GET'])]
+    public function favoritesRemove(int $id, Request $request): Response
     {
-        //todo dynamiser la page favorites
-        return $this->render('movie/favorites.html.twig');
+
+
+        $session = $request->getSession();
+        // récupérer les éventuels movies en sessions dans une variable $moviesInSession
+        $moviesInSession = $session->get('favorite_movies', []);
+
+        // supprimer le film du tableau des favoris
+        unset($moviesInSession[$id]);
+        // todo afficher le nom du film dans le message flash
+        $this->addFlash('success', 'Le film a été supprimé de vos favoris');
+
+        // réécrire le tableau dans la session ( à la meme clef )
+        $session->set('favorite_movies', $moviesInSession); 
+
+
+        // rediriger l'utilisateur sur la page /favorites
+        return $this->redirectToRoute('app_movie_favorites');
+
     }
     
     #[Route('/', name: 'list', methods: ['GET'])]
@@ -60,10 +90,13 @@ class MovieController extends AbstractController
     public function show(int $id): Response
     {
         $movie = Data::getOneById($id);
+        $movie['id'] = $id;
 
         return $this->render('movie/show.html.twig', [
-            'movie' => $movie
+            'movie' => $movie,
+            'movie_id' => $id,
         ]);
     }
 
+    // todo ajouter une page pour vider la liste des favoris
 }
