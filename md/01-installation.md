@@ -35,6 +35,14 @@ composer require symfony/profiler-pack
 composer require --dev symfony/debug-bundle
 ```
 
+## Maker
+
+Le maker génère une base de code prête à l'emploi
+
+```bash
+composer require --dev symfony/maker-bundle
+```
+
 ## Challenge
 
 Intégrer de manière statique les pages
