@@ -6,10 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/movie', name: 'app_movie_')]
 class MovieController extends AbstractController
 {
 
-    #[Route('/favorites', name: 'app_movie_favorites')]
+    #[Route('/favorites', name: 'favorites', methods: ['GET'])]
     public function favorites(): Response
     {
         return $this->render('movie/favorites.html.twig', [
@@ -17,7 +18,7 @@ class MovieController extends AbstractController
         ]);
     }
     
-    #[Route('/movie', name: 'app_movie_list')]
+    #[Route('/', name: 'list', methods: ['GET'])]
     public function list(): Response
     {
         return $this->render('movie/list.html.twig', [
@@ -25,8 +26,8 @@ class MovieController extends AbstractController
         ]);
     }
 
-    #[Route('/movie/{id}', name: 'app_movie_show')]
-    public function show($id): Response
+    #[Route('/{id}', name: 'show', methods: ['GET'], requirements : ['id' => '\d+'])]
+    public function show(int $id): Response
     {
         dd($id);
         return $this->render('movie/list.html.twig', [
