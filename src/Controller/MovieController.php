@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Utils\Data;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,27 +15,23 @@ class MovieController extends AbstractController
     public function favorites(): Response
     {
         //todo dynamiser la page favorites
-        return $this->render('movie/favorites.html.twig', [
-            'ponjezrfvgnjzer' => 'ONPOZINEF OIJNEFZ',
-        ]);
+        return $this->render('movie/favorites.html.twig');
     }
     
     #[Route('/', name: 'list', methods: ['GET'])]
     public function list(): Response
     {
         // todo dynamiser la page liste
-        return $this->render('movie/list.html.twig', [
-            'controller_name' => 'MovieController',
-        ]);
+        return $this->render('movie/list.html.twig');
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'], requirements : ['id' => '\d+'])]
     public function show(int $id): Response
     {
-        // todo dynamiser la page show
-        dd($id);
-        return $this->render('movie/list.html.twig', [
-            'controller_name' => 'MovieController',
+        $movie = Data::getOneById($id);
+
+        return $this->render('movie/show.html.twig', [
+            'movie' => $movie
         ]);
     }
 
