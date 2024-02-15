@@ -23,6 +23,7 @@ composer require symfony/apache-pack
 
 ```bash
 composer require twig
+composer require symfony/asset
 ```
 
 ## WDT (Web Debug Toolbar)

@@ -21,8 +21,10 @@ class MovieController extends AbstractController
     #[Route('/', name: 'list', methods: ['GET'])]
     public function list(): Response
     {
-        // todo dynamiser la page liste
-        return $this->render('movie/list.html.twig');
+        $allMovies = Data::getAllShows();
+        return $this->render('movie/list.html.twig', [
+            'movieList' => $allMovies
+        ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'], requirements : ['id' => '\d+'])]
