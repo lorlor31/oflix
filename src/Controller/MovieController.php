@@ -14,7 +14,7 @@ class MovieController extends AbstractController
     public function favorites(): Response
     {
         return $this->render('movie/favorites.html.twig', [
-            'controller_name' => 'MovieController',
+            'ponjezrfvgnjzer' => 'ONPOZINEF OIJNEFZ',
         ]);
     }
     
