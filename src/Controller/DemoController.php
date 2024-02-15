@@ -46,8 +46,10 @@ class DemoController
     public function hello(string $name, Request $request): Response
     {
         $session = $request->getSession();
-
+        dump($session);
         $session->set('name', $name);
+        dump($session);
+
         $response = new Response();
 
         $response->setContent('<body><h1>Hello ' .  $name . '</h1></body>');

@@ -76,7 +76,7 @@ class MovieController extends AbstractController
         return $this->redirectToRoute('app_movie_favorites');
 
     }
-    
+
     #[Route('/', name: 'list', methods: ['GET'])]
     public function list(): Response
     {

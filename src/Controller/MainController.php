@@ -15,9 +15,14 @@ class MainController extends AbstractController
         // récupérer les données
         $allMovies = Data::getAllShows();
 
+        // récupérer les films en session
+        // pour chaque movie, vérifier si il est en session
+        // si oui ajouter l'id dans un tableau
+        //fournir le tableau des movies qui sont en session
+
         // les fournir à la vue
         return $this->render('main/home.html.twig', [
-            'movieList' => $allMovies
+            'movieList' => $allMovies,
         ]);
     }
 }
