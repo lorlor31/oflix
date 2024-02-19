@@ -28,11 +28,11 @@ class MovieController extends AbstractController
     }
     
     #[Route('/favorites/{id<\d+>}', name: 'favorites_add', methods: ['GET'])]
-    public function favoritesAdd(int $id, Request $request): Response
+    public function favoritesAdd(int $id, Request $request, ShowRepository $showRepository): Response
     {
         // récupérer l'id de l'url done !
         // récupérer le movie qui correspond à l'id
-        $movie = Data::getOneById($id);
+        $movie = $showRepository->find($id);
 
         // todo vérifier que movie n'est pas un tableau vide
         // todo si c'est le cas que faire ? 
@@ -48,7 +48,7 @@ class MovieController extends AbstractController
         // réécrire le tableau dans la session ( à la meme clef )
         $session->set('favorite_movies', $moviesInSession); 
 
-        $this->addFlash('success', 'Le film ' . $movie['title'] . ' a été ajouté avec succès');
+        $this->addFlash('success', 'Le film ' . $movie->getTitle() . ' a été ajouté avec succès');
 
         // rediriger l'utilisateur sur la page /favorites
         return $this->redirectToRoute('app_movie_favorites');
@@ -81,8 +81,6 @@ class MovieController extends AbstractController
     #[Route('/', name: 'list', methods: ['GET'])]
     public function list(ShowRepository $showRepository): Response
     {
-        $allMovies = Data::getAllShows();
-
         $allMovies = $showRepository->findAll();
         
         return $this->render('movie/list.html.twig', [
