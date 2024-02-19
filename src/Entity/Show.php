@@ -39,6 +39,8 @@ class Show
     #[ORM\Column(length: 100)]
     private ?string $country = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $poster = null;
 
     public function getId(): ?int
     {
@@ -141,4 +143,24 @@ class Show
         return $this;
     }
 
+
+    /**
+     * Get the value of poster
+     */ 
+    public function getPoster()
+    {
+        return $this->poster;
+    }
+
+    /**
+     * Set the value of poster
+     *
+     * @return  self
+     */ 
+    public function setPoster($poster)
+    {
+        $this->poster = $poster;
+
+        return $this;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ShowRepository;
 use App\Utils\Data;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,18 +79,21 @@ class MovieController extends AbstractController
     }
 
     #[Route('/', name: 'list', methods: ['GET'])]
-    public function list(): Response
+    public function list(ShowRepository $showRepository): Response
     {
         $allMovies = Data::getAllShows();
+
+        $allMovies = $showRepository->findAll();
+        
         return $this->render('movie/list.html.twig', [
             'movieList' => $allMovies
         ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'], requirements : ['id' => '\d+'])]
-    public function show(int $id): Response
+    public function show(int $id, ShowRepository $showRepository): Response
     {
-        $movie = Data::getOneById($id);
+        $movie = $showRepository->find($id);
 
         if (empty($movie))
         {
@@ -97,7 +101,7 @@ class MovieController extends AbstractController
             // 404
             throw $this->createNotFoundException('Le film demandé n\'existe pas');
         }
-        $movie['id'] = $id;
+        // $movie['id'] = $id;
 
         return $this->render('movie/show.html.twig', [
             'movie' => $movie,

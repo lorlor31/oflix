@@ -8,4 +8,3 @@
 | `/favorites/{id}` | `GET`        | `MovieController` | `favoritesAdd`  | - | ajoute le film en session et redirige vers la page /favorites |
 | `/favorites/remove/{id}` | `GET`        | `MovieController` | `favoritesRemove`  | - | supprime le film en session et redirige vers la page /favorites |
 | `/favorites` | `GET`        | `MovieController` | `favorites`  | Mes films favoris | Liste des films favoris sélectionnés par l'utilisateur |
-

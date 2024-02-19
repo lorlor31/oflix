@@ -16,7 +16,7 @@
 
                     <div class="col-8 p-4 d-flex flex-column position-static bg-light">
 
-                         {{ include('movie/_partials/_favorite_button.html.twig', {currentId: movie.id}) }}
+                         {{ include('movie/_partials/_favorite_button.html.twig', {currentMovie: movie}) }}
 
                         <strong class="d-inline-block mb-2 text-primary">{{ movie.type }}</strong>
                         <h3 class="mb-1">{{ movie.title }}</h3>
@@ -54,7 +54,7 @@
                             <dt class="col-sm-12">Pays</dt>
                             <dd class="col-sm-12">USA</dd>
                             <dt class="col-sm-12">Année</dt>
-                            <dd class="col-sm-12">{{ movie.release_date }}</dd>
+                            <dd class="col-sm-12">{{ movie.releaseDate|date('Y') }}</dd>
                         </dl>
 
                     </div>
