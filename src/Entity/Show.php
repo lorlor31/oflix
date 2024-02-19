@@ -1,0 +1,144 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\ShowRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: ShowRepository::class)]
+#[ORM\Table(name: '`show`')]
+class Show
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $duration = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $summary = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $synopsis = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $rating = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $type = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $releaseDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $country = null;
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(int $duration): static
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getSummary(): ?string
+    {
+        return $this->summary;
+    }
+
+    public function setSummary(string $summary): static
+    {
+        $this->summary = $summary;
+
+        return $this;
+    }
+
+    public function getSynopsis(): ?string
+    {
+        return $this->synopsis;
+    }
+
+    public function setSynopsis(string $synopsis): static
+    {
+        $this->synopsis = $synopsis;
+
+        return $this;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?float $rating): static
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getReleaseDate(): ?\DateTimeImmutable
+    {
+        return $this->releaseDate;
+    }
+
+    public function setReleaseDate(?\DateTimeImmutable $releaseDate): static
+    {
+        $this->releaseDate = $releaseDate;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): static
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+}
