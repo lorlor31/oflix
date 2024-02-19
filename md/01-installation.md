@@ -43,3 +43,10 @@ Le maker génère une base de code prête à l'emploi
 ```bash
 composer require --dev symfony/maker-bundle
 ```
+
+## Installation de Doctrine
+
+```bash
+composer require symfony/orm-pack
+# modifier la configuration de la BDD
+```
