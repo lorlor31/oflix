@@ -49,4 +49,12 @@ composer require --dev symfony/maker-bundle
 ```bash
 composer require symfony/orm-pack
 # modifier la configuration de la BDD
+# créer la BDD
+bin/console doctrine:database:create
 ```
+
+Habituellement on va :
+
+- modifier nos entités `bin/console make:entity`
+- générer une migration `bin/console make:migration`
+- appliquer la migration `bin/console doctrine:migration:migrate`
