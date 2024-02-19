@@ -9,6 +9,5 @@
 ## Maker
 
 | commandes | Description |
-| --- | ------------ | 
+| --- | ------------ |
 | `bin/console make:controller` | pour générer un controller |
-
