@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ShowRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,6 +43,14 @@ class Show
 
     #[ORM\Column(length: 255)]
     private ?string $poster = null;
+
+    #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'movie', orphanRemoval: true)]
+    private Collection $seasons;
+
+    public function __construct()
+    {
+        $this->seasons = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -160,6 +170,36 @@ class Show
     public function setPoster($poster)
     {
         $this->poster = $poster;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Season>
+     */
+    public function getSeasons(): Collection
+    {
+        return $this->seasons;
+    }
+
+    public function addSeason(Season $season): static
+    {
+        if (!$this->seasons->contains($season)) {
+            $this->seasons->add($season);
+            $season->setShow($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeason(Season $season): static
+    {
+        if ($this->seasons->removeElement($season)) {
+            // set the owning side to null (unless already changed)
+            if ($season->getShow() === $this) {
+                $season->setShow(null);
+            }
+        }
 
         return $this;
     }
