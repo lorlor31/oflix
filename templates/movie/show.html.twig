@@ -37,12 +37,19 @@
                             <span class="ps-1">{{ movie.rating }}</span>
                         </div>
 
-                        <h2>3 Saisons</h2>
+                        {# Si c'est une série  #}
+                        {# alors afficher et dynamiser cette section #}
+                        {% if movie.type == 'Série' %}
+                        <h2>{{ movie.seasons|length }} Saisons</h2>
                         <ul class="list-unstyled">
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 1</span><small class="ms-1">(10 épisodes)</small></li>
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 2</span><small class="ms-1">(11 épisodes)</small></li>
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 3</span><small class="ms-1">(12 épisodes)</small></li>
+                        {% for currentSeason in movie.seasons %}
+                            <li>
+                                <span class="badge bg-danger fs-6 mb-2">Saison {{ currentSeason.number }}</span>
+                                <small class="ms-1">({{ currentSeason.episodeCount}} épisodes)</small>
+                            </li>
+                        {% endfor %}
                         </ul>
+                        {% endif %}
 
                         <dl class="row">
                             <dt class="col-sm-12">Avec</dt>
