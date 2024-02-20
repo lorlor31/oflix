@@ -44,7 +44,7 @@ class Show
     #[ORM\Column(length: 255)]
     private ?string $poster = null;
 
-    #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'movie', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'show', orphanRemoval: true)]
     private Collection $seasons;
 
     public function __construct()
