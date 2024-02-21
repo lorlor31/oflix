@@ -23,6 +23,7 @@
 | `bin/console doctrine:migration:migrate` | pour appliquer les migrations dans la BDD |
 | `bin/console doctrine:database:drop` | pour supprimer la BDD |
 | `bin/console doctrine:schema:validate` | pour valider une modification faite à la main |
+| `bin/console doctrine:fixtures:load` | pour appliquer les fixtures |
 
 ### En cas de migration qui échoue
 
