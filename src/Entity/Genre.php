@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GenreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
@@ -18,6 +20,14 @@ class Genre
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
+    #[ORM\ManyToMany(targetEntity: Show::class, mappedBy: 'genres')]
+    private Collection $shows;
+
+    public function __construct()
+    {
+        $this->shows = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -31,6 +41,35 @@ class Genre
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Show>
+     */
+    public function getShows(): Collection
+    {
+        return $this->shows;
+    }
+
+    public function addShow(Show $show): static
+    {
+        if (!$this->shows->contains($show)) {
+            $this->shows->add($show);
+
+            // rajouté par le maker pour que Doctrine puisse faire la mise à jour
+            $show->addGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShow(Show $show): static
+    {
+        if ($this->shows->removeElement($show)) {
+            $show->removeGenre($this);
+        }
 
         return $this;
     }

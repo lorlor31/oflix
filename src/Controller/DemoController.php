@@ -6,6 +6,7 @@ use App\Entity\Genre;
 use App\Entity\Season;
 use App\Entity\Show;
 use App\Repository\GenreRepository;
+use App\Repository\ShowRepository;
 use ContainerPub1CDv\getGenreRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +19,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class DemoController extends AbstractController
 {
     
+    #[Route('/demo/many')]
+    public function manyToMany(
+        EntityManagerInterface $em, 
+        GenreRepository $genreRepository, 
+        ShowRepository $showRepository
+    ): Response
+    {
+        // ajouter le genre 1 au film 5
+        $genre = $genreRepository->find(1);
+        $show = $showRepository->find(5);
+
+        // pour définir / supprimer une relation on utilise soit addXXX removeXXX
+        $show->addGenre($genre);
+        $genre->addShow($show);
+
+        // on n'a pas besoin de persist les entités car on les a récupéré à l'aide de Doctrine
+        // $em->persist($genre);
+
+        $em->flush();
+
+        return $this->redirectToRoute('app_homepage');
+    }
+
+
     #[Route('/initDb/{nbMovies<\d+>}')]
     public function relations(EntityManagerInterface $entityManager, $nbMovies): Response
     {
