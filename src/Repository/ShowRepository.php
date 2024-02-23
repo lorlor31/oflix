@@ -49,6 +49,24 @@ class ShowRepository extends ServiceEntityRepository
         return $query->getResult();
    }
 
+   public function findOneWithCastingsAndPersons($showId): ?Show
+   {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s, c, p, g, z
+                FROM \App\Entity\Show AS s
+                INNER JOIN s.castings AS c 
+                INNER JOIN c.person AS p
+                INNER JOIN s.genres AS g
+                LEFT JOIN s.seasons AS z
+                WHERE s.id = :show_id
+                ORDER BY z.number ASC, c.creditOrder ASC
+            '
+        )->setParameter('show_id', $showId);
+
+        return $query->getOneOrNullResult();
+   }
 //    public function findOneBySomeField($value): ?Show
 //    {
 //        return $this->createQueryBuilder('s')

@@ -92,7 +92,7 @@ class MovieController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'], requirements : ['id' => '\d+'])]
     public function show(int $id, CastingRepository $castingRepository, ShowRepository $showRepository): Response
     {
-        $movie = $showRepository->find($id);
+        $movie = $showRepository->findOneWithCastingsAndPersons($id);
 
         if (empty($movie))
         {
@@ -108,7 +108,7 @@ class MovieController extends AbstractController
         // - demander à Doctrine de récupérer les castings bien ordonné
         // $castingList = $movie->getCastings()->toArray();
 
-        $castingList = $castingRepository->findBy(['show' => $movie], ['role' => 'ASC']);
+        // $castingList = $castingRepository->findBy(['show' => $movie], ['role' => 'ASC']);
         // dd($castingList);
         // usort($castingList, function ($castingA, $castingB) {
         //     return $castingA->getCreditOrder() <=> $castingB->getCreditOrder();
