@@ -21,20 +21,33 @@ class ShowRepository extends ServiceEntityRepository
         parent::__construct($registry, Show::class);
     }
 
-//    /**
-//     * @return Show[] Returns an array of Show objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Show[] Returns an array of Show objects
+    */
+   public function findByRatingOver(float $minRating, int $maxResults = 5, int $pageNumber = 1): array
+   {
+
+        // ici on peut écrire du SQL 
+        // ou du DQL 
+        // ou utiliser le QueryBuilder à découvrir
+        $offset = $maxResults * ($pageNumber - 1);
+
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM \App\Entity\Show AS s
+            WHERE s.rating >= :min_rating
+            ORDER BY s.title ASC
+            '
+        )->setParameter('min_rating', $minRating);
+
+        $query->setMaxResults($maxResults);
+        $query->setFirstResult($offset);
+
+        // returns an array of Product objects
+        return $query->getResult();
+   }
 
 //    public function findOneBySomeField($value): ?Show
 //    {

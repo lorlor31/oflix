@@ -249,7 +249,7 @@ class Show
     {
         if (!$this->castings->contains($casting)) {
             $this->castings->add($casting);
-            $casting->setMovie($this);
+            $casting->setShow($this);
         }
 
         return $this;
@@ -259,8 +259,8 @@ class Show
     {
         if ($this->castings->removeElement($casting)) {
             // set the owning side to null (unless already changed)
-            if ($casting->getMovie() === $this) {
-                $casting->setMovie(null);
+            if ($casting->getShow() === $this) {
+                $casting->setShow(null);
             }
         }
 

@@ -48,16 +48,19 @@
 
             <nav class="col-lg-9 offset-lg-3">
                 <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link">&laquo;</a>
+                    <li class="page-item {% if selectedPage == 1 %}disabled{% endif %}">
+                        <a href="{{ path('app_homepage', {'page' : selectedPage - 1})}}" class="page-link">&laquo;</a>
                     </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item" aria-current="page">
-                        <a class="page-link" href="#">2</a>
+                    {% for currentPage in 1..maxPageCount %}
+                    <li 
+                        class="page-item {% if selectedPage == currentPage %} active {% endif %}"
+                        {% if selectedPage == currentPage %}aria-current="page"{% endif %}
+                    >
+                        <a class="page-link" href="{{ path('app_homepage', {'page' : currentPage, 'toto' : 'tata'})}}">{{ currentPage}}</a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">&raquo;</a>
+                    {% endfor %}
+                    <li class="page-item {% if selectedPage == maxPageCount %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('app_homepage', {'page' : selectedPage + 1})}}">&raquo;</a>
                     </li>
                 </ul>
             </nav>
