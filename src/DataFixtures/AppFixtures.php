@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Casting;
+use App\Entity\Person;
 use App\Entity\Season;
 use App\Entity\Show;
 use App\Repository\GenreRepository;
@@ -25,11 +27,40 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         $faker->seed(1234);
         $faker->addProvider(new \Xylis\FakerCinema\Provider\Movie($faker));
         $faker->addProvider(new \Xylis\FakerCinema\Provider\TvShow($faker));
+        $faker->addProvider(new \Xylis\FakerCinema\Provider\Person($faker));
+        $faker->addProvider(new \Xylis\FakerCinema\Provider\Character($faker));
 
         $genreList = $this->genreRepository->findAll();
 
-        $nbMovies = 100;
-        for ($currentMovieNumber = 0; $currentMovieNumber < $nbMovies; $currentMovieNumber++)
+        $insertedPersons = [];
+        $insertedPersonObjectList =  [];
+        for ($currentPersonNumber = 0; $currentPersonNumber < 50; $currentPersonNumber++)
+        {
+            $currentPerson = $faker->actor();
+
+
+            if (in_array($currentPerson, $insertedPersons)) {
+                // Si la personne a déjà été ajouté, on passe à la ligne suivante
+                continue;
+            }
+            
+            $actorIdentity = explode(" ", $currentPerson);
+            $firstName = $actorIdentity[0];
+            $lastName = $actorIdentity[1];
+
+
+            $person = new Person();
+            $person->setFirstName($firstName);
+            $person->setLastName($lastName);
+
+            $manager->persist($person);
+
+            $insertedPersons[] = $currentPerson;
+            $insertedPersonObjectList[] = $person;
+        }
+        
+        $nbShows = 100;
+        for ($currentShowNumber = 0; $currentShowNumber < $nbShows; $currentShowNumber++)
         {
             // créer une liste de show
             $show = new Show();
@@ -78,6 +109,20 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             // on a besoin du titre du film / série
             $show->setPoster($faker->imageUrl(203, 300, $showTitle));
             
+
+            // ajout de castings
+            $nbCastings = $faker->numberBetween(5, 20);
+            for ($currentCastingNumber = 1; $currentCastingNumber <= $nbCastings; $currentCastingNumber++)
+            {
+                $casting = new Casting();
+
+                $casting->setShow($show);
+                $casting->setPerson($faker->randomElement($insertedPersonObjectList));
+                $casting->setRole($faker->character());
+                $casting->setCreditOrder($currentCastingNumber);
+                $manager->persist($casting);
+            }
+
             // on informe l'entité manager qu'il y a une nouvelle entité à insérer en BDD
             $manager->persist($show);
 
