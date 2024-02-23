@@ -112,7 +112,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
 
             // ajout de castings
             $nbCastings = $faker->numberBetween(5, 20);
-            for ($currentCastingNumber = 1; $currentCastingNumber <= $nbCastings; $currentCastingNumber++)
+            for ($currentCastingNumber = $nbCastings; $currentCastingNumber > 0; $currentCastingNumber--)
             {
                 $casting = new Casting();
 

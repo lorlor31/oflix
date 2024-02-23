@@ -51,6 +51,7 @@ class Show
     private Collection $genres;
 
     #[ORM\OneToMany(targetEntity: Casting::class, mappedBy: 'show', orphanRemoval: true)]
+    #[ORM\OrderBy(["creditOrder" => "ASC"])]
     private Collection $castings;
 
     public function __construct()

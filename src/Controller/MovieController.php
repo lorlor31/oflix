@@ -101,9 +101,19 @@ class MovieController extends AbstractController
         }
         // $movie['id'] = $id;
 
+        // pour trier les castings, on peut le faire
+        // - dans twig
+        // - dans le controller en PHP
+        // - demander à Doctrine de récupérer les castings bien ordonné
+        // $castingList = $movie->getCastings()->toArray();
+
+        // usort($castingList, function ($castingA, $castingB) {
+        //     return $castingA->getCreditOrder() <=> $castingB->getCreditOrder();
+        // });
+
         return $this->render('movie/show.html.twig', [
             'movie' => $movie,
-            'movie_id' => $id,
+            // 'castingList' => $castingList,
         ]);
     }
 

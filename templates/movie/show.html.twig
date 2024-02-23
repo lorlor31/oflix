@@ -53,12 +53,18 @@
                         <dl class="row">
                             <dt class="col-sm-12">Avec</dt>
                             <dd class="col-sm-12">
-                                Acteur 1 (Tilt)<br>
-                                Acteur 2 (La reine)<br>
-                                Acteur 3 (Franz)<br>
+                            {# on peut demander à twig d'ordonner le tableau #}
+                            {# {% for currentCasting in movie.castings|sort((movieA, movieB) => movieA.creditOrder <=> movieB.creditOrder) %} #}
+                            {% for currentCasting in movie.castings %}
+                                {{ currentCasting.person.firstName }}
+                                {{ currentCasting.person.lastName }}
+                                ({{ currentCasting.role }})
+                                {{ currentCasting.creditOrder }}
+                                <br>
+                            {% endfor %}
                             </dd>
                             <dt class="col-sm-12">Pays</dt>
-                            <dd class="col-sm-12">USA</dd>
+                            <dd class="col-sm-12">{{ movie.country }}</dd>
                             <dt class="col-sm-12">Année</dt>
                             <dd class="col-sm-12">{{ movie.releaseDate|date('Y') }}</dd>
                         </dl>
