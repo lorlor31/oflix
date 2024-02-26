@@ -16,7 +16,7 @@ touch .env.local
 
 # installation des composants de base pour une app web
 # a terme on utilisera `composer require webapp`
-composer require symfony/apache-pack twig symfony/asset symfony/orm-pack
+composer require symfony/apache-pack twig symfony/asset symfony/orm-pack symfony/form symfony/validator
 
 # les composants à installer en dev
 composer require symfony/profiler-pack
@@ -87,3 +87,48 @@ Habituellement on va :
 - modifier nos entités `bin/console make:entity`
 - générer une migration `bin/console make:migration`
 - appliquer la migration `bin/console doctrine:migration:migrate`
+
+## Symfony/form
+
+### Installation de Symfony/form
+
+```bash
+composer require symfony/form
+```
+
+### Création de la classe de formulaire
+
+```bash
+bin/console make:form
+```
+
+N'hésitez pas à ajouter / supprimer / modifier la configuration générée par le maker.
+
+La liste de [tous les types est disponible ici](https://symfony.com/doc/current/reference/forms/types.html)
+
+### Affichage d'un formulaire
+
+- Dans le controller :
+  1. instancier un objet de la classe FormType créé précédemment
+  2. fournir cet objet à la vue
+- Dans la vue :
+  - Utiliser [les fonctions helper de Twig](https://symfony.com/doc/current/form/form_customization.html#form-functions-and-variables-reference) pour afficher le formulaire.
+    - on utilisera principalement `form_start`, `form_end` et `form_row`
+
+Pour demander au composant form de générer du HTML compatible avec boostrap.
+Ajouter dans la configuration
+
+```yml
+# config/packages/twig.yaml
+twig:
+    form_themes: ['bootstrap_5_layout.html.twig']
+```
+
+### Validation des données
+
+La liste des [contraintes existantes](https://symfony.com/doc/current/validation.html#constraints)
+
+- Installer le composant symfony/validator `composer require symfony/validator`
+- Ajouter les contraintes
+  - sur l'entité directement
+  - ou dans le FormType
