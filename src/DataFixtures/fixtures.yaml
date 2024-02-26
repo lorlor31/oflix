@@ -10,4 +10,4 @@ App\Entity\Show:
         type: <randomElement(["Film", "Série"])>
         country: <country()>
         poster: <imageUrl(203, 300, 'Nelmio')>
-        genres: '<numberBetween(1, 6)>x @genre*'
+        genres: '<numberBetween(1, 5)>x @genre*'
