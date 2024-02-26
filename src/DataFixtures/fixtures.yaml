@@ -1,0 +1,13 @@
+App\Entity\Genre:
+    genre{1..5}:
+        name (unique): <word()>
+App\Entity\Show:
+    show{1..10}:
+        title: <sentence()>
+        duration: <numberBetween(25, 245)>
+        summary: <paragraph()>
+        synopsis: <text()>
+        type: <randomElement(["Film", "Série"])>
+        country: <country()>
+        poster: <imageUrl(203, 300, 'Nelmio')>
+        genres: '<numberBetween(1, 6)>x @genre*'
