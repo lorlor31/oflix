@@ -74,3 +74,27 @@ class Genre
         return $this;
     }
 }
+
+/**
+ * #[ORM\Column(length: 50)]
+    private ?string $username = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $rating;
+
+    #[ORM\Column]
+    private array $reactions = [];
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $watchedAt = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Show $movie = null;
+ */

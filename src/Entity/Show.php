@@ -54,11 +54,15 @@ class Show
     #[ORM\OrderBy(["creditOrder" => "ASC"])]
     private Collection $castings;
 
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'movie', orphanRemoval: true)]
+    private Collection $reviews;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
         $this->genres = new ArrayCollection();
         $this->castings = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,7 +169,7 @@ class Show
 
     /**
      * Get the value of poster
-     */ 
+     */
     public function getPoster()
     {
         return $this->poster;
@@ -175,7 +179,7 @@ class Show
      * Set the value of poster
      *
      * @return  self
-     */ 
+     */
     public function setPoster($poster)
     {
         $this->poster = $poster;
@@ -261,6 +265,36 @@ class Show
             // set the owning side to null (unless already changed)
             if ($casting->getShow() === $this) {
                 $casting->setShow(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): static
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): static
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getMovie() === $this) {
+                $review->setMovie(null);
             }
         }
 
