@@ -28,6 +28,12 @@ class Genre
         $this->shows = new ArrayCollection();
     }
 
+    // Pour pouvoir afficher sans faire de choice_label :
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

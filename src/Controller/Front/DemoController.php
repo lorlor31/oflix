@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Entity\Genre;
 use App\Entity\Season;
@@ -18,14 +18,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DemoController extends AbstractController
 {
-    
+
     #[Route('/demo/many')]
     public function manyToMany(
-        EntityManagerInterface $em, 
-        GenreRepository $genreRepository, 
+        EntityManagerInterface $em,
+        GenreRepository $genreRepository,
         ShowRepository $showRepository
-    ): Response
-    {
+    ): Response {
         // ajouter le genre 1 au film 5
         $genre = $genreRepository->find(1);
         $show = $showRepository->find(5);
@@ -46,47 +45,41 @@ class DemoController extends AbstractController
     #[Route('/initDb/{nbMovies<\d+>}')]
     public function relations(EntityManagerInterface $entityManager, $nbMovies): Response
     {
-        for ($currentMovieNumber = 0; $currentMovieNumber < $nbMovies; $currentMovieNumber++)
-        {
+        for ($currentMovieNumber = 0; $currentMovieNumber < $nbMovies; $currentMovieNumber++) {
             // créer une liste de show
             $show = new Show();
-    
+
             $show->setTitle(uniqid('titre '));
-            $show->setDuration(rand(90,240));
+            $show->setDuration(rand(90, 240));
             $show->setSummary(uniqid('summary '));
             $show->setSynopsis(uniqid('synopsis '));
-            $show->setRating(rand(1,5));
+            $show->setRating(rand(1, 5));
             $show->setCountry(uniqid('Country '));
             $show->setPoster('https://picsum.photos/200/300');
 
-            
-            if (rand(1, 3) > 1)
-            {
+
+            if (rand(1, 3) > 1) {
                 $show->setType('Film');
-            }
-            else 
-            {
+            } else {
                 $show->setType('Série');
                 // créer une liste de saisons
-                    // associe la saison à un show
+                // associe la saison à un show
                 $seasonCount = rand(1, 5);
-    
-                for($currentSeasonNumber = 1; $currentSeasonNumber <= $seasonCount; $currentSeasonNumber++)
-                {
+
+                for ($currentSeasonNumber = 1; $currentSeasonNumber <= $seasonCount; $currentSeasonNumber++) {
                     $season = new Season();
                     $season->setNumber($currentSeasonNumber);
-                    $season->setEpisodeCount(rand(2,9));
+                    $season->setEpisodeCount(rand(2, 9));
                     // ici on fait la jointure entre le show créé et la saison
                     $season->setShow($show);
-    
+
                     // on informe l'entité manager qu'il y a une nouvelle entité à insérer en BDD
                     $entityManager->persist($season);
                 }
             }
-    
+
             // on informe l'entité manager qu'il y a une nouvelle entité à insérer en BDD
             $entityManager->persist($show);
-
         }
 
         // on demande d'exécuter les requetes
@@ -97,7 +90,7 @@ class DemoController extends AbstractController
         return $this->redirectToRoute('app_homepage');
     }
 
-    
+
     #[Route('/demo/show/delete/{id<\d+>}')]
     public function demoDeleteShow(Show $show, EntityManagerInterface $em): Response
     {
@@ -152,7 +145,6 @@ class DemoController extends AbstractController
 
         dd($genre);
         return new Response();
-
     }
 
     #[Route('/demo/doctrine/read')]
@@ -210,7 +202,4 @@ class DemoController extends AbstractController
         // this looks exactly the same
         return $response;
     }
-
-    
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Repository\ShowRepository;
 use App\Utils\Data;
@@ -22,12 +22,10 @@ class MainController extends AbstractController
         $pageNumber = $request->query->get('page', 1);
         $nbShowsMax = 8; // todo récupérer avec une requete tous les films avec une note > 4.5
         $maxPageCount = ceil($nbShowsMax / $nbElementsByPage);
-        if ($pageNumber > $maxPageCount) 
-        {
+        if ($pageNumber > $maxPageCount) {
             $pageNumber = $maxPageCount;
         }
-        if ($pageNumber < 1 )
-        {
+        if ($pageNumber < 1) {
             $pageNumber = 1;
         }
         $bestRatedMovies = $showRepository->findByRatingOver(4.5, $nbElementsByPage, $pageNumber);

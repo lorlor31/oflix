@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Repository\CastingRepository;
 use App\Repository\ShowRepository;
@@ -27,7 +27,7 @@ class MovieController extends AbstractController
             'movieList' => $favoriteMovies
         ]);
     }
-    
+
     #[Route('/favorites/{id<\d+>}', name: 'favorites_add', methods: ['GET'])]
     public function favoritesAdd(int $id, Request $request, ShowRepository $showRepository): Response
     {
@@ -47,15 +47,14 @@ class MovieController extends AbstractController
         $moviesInSession[$id] = $movie;
 
         // réécrire le tableau dans la session ( à la meme clef )
-        $session->set('favorite_movies', $moviesInSession); 
+        $session->set('favorite_movies', $moviesInSession);
 
         $this->addFlash('success', 'Le film ' . $movie->getTitle() . ' a été ajouté avec succès');
 
         // rediriger l'utilisateur sur la page /favorites
         return $this->redirectToRoute('app_movie_favorites');
-
     }
-    
+
     #[Route('/favorites/remove/{id<\d+>}', name: 'favorites_remove', methods: ['GET'])]
     public function favoritesRemove(int $id, Request $request): Response
     {
@@ -71,31 +70,29 @@ class MovieController extends AbstractController
         $this->addFlash('success', 'Le film a été supprimé de vos favoris');
 
         // réécrire le tableau dans la session ( à la meme clef )
-        $session->set('favorite_movies', $moviesInSession); 
+        $session->set('favorite_movies', $moviesInSession);
 
 
         // rediriger l'utilisateur sur la page /favorites
         return $this->redirectToRoute('app_movie_favorites');
-
     }
 
     #[Route('/', name: 'list', methods: ['GET'])]
     public function list(ShowRepository $showRepository): Response
     {
         $allMovies = $showRepository->findAll();
-        
+
         return $this->render('movie/list.html.twig', [
             'movieList' => $allMovies
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'], requirements : ['id' => '\d+'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function show(int $id, CastingRepository $castingRepository, ShowRepository $showRepository): Response
     {
         $movie = $showRepository->findOneWithCastingsAndPersons($id);
 
-        if (empty($movie))
-        {
+        if (empty($movie)) {
             // le film n'existe pas en BDD
             // 404
             throw $this->createNotFoundException('Le film demandé n\'existe pas');

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ShowRepository::class)]
 #[ORM\Table(name: '`show`')]
@@ -17,43 +18,55 @@ class Show
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $duration = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $summary = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $synopsis = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $rating = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 10)]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $releaseDate = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 100)]
     private ?string $country = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $poster = null;
 
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'show', orphanRemoval: true)]
     private Collection $seasons;
 
+    #[Assert\NotBlank]
     #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'shows')]
     private Collection $genres;
 
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Casting::class, mappedBy: 'show', orphanRemoval: true)]
     #[ORM\OrderBy(["creditOrder" => "ASC"])]
     private Collection $castings;
 
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'movie', orphanRemoval: true)]
     private Collection $reviews;
 

@@ -4,9 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Casting;
 use App\Entity\Person;
+use App\Entity\Review;
 use App\Entity\Season;
 use App\Entity\Show;
 use App\Repository\GenreRepository;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -20,7 +22,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
     {
         $this->genreRepository = $genreRepository;
     }
-  
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -29,13 +31,13 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         $faker->addProvider(new \Xylis\FakerCinema\Provider\TvShow($faker));
         $faker->addProvider(new \Xylis\FakerCinema\Provider\Person($faker));
         $faker->addProvider(new \Xylis\FakerCinema\Provider\Character($faker));
+        $faker->addProvider(new AppProvider());
 
         $genreList = $this->genreRepository->findAll();
 
         $insertedPersons = [];
         $insertedPersonObjectList =  [];
-        for ($currentPersonNumber = 0; $currentPersonNumber < 50; $currentPersonNumber++)
-        {
+        for ($currentPersonNumber = 0; $currentPersonNumber < 50; $currentPersonNumber++) {
             $currentPerson = $faker->actor();
 
 
@@ -43,7 +45,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 // Si la personne a déjà été ajouté, on passe à la ligne suivante
                 continue;
             }
-            
+
             $actorIdentity = explode(" ", $currentPerson);
             $firstName = $actorIdentity[0];
             $lastName = $actorIdentity[1];
@@ -58,49 +60,43 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $insertedPersons[] = $currentPerson;
             $insertedPersonObjectList[] = $person;
         }
-        
+
         $nbShows = 100;
-        for ($currentShowNumber = 0; $currentShowNumber < $nbShows; $currentShowNumber++)
-        {
+        for ($currentShowNumber = 0; $currentShowNumber < $nbShows; $currentShowNumber++) {
             // créer une liste de show
             $show = new Show();
-    
-            $show->setDuration($faker->numberBetween(90,240));
+
+            $show->setDuration($faker->numberBetween(90, 240));
             $show->setSummary($faker->paragraph());
             $show->setSynopsis($faker->overview());
-            $show->setRating($faker->randomFloat(1,0,5));
+            $show->setRating($faker->randomFloat(1, 0, 5));
             $show->setCountry($faker->country());
 
 
             $nbGenre = $faker->numberBetween(1, 4);
-            for ($i = 0; $i < $nbGenre; $i++)
-            {
+            for ($i = 0; $i < $nbGenre; $i++) {
                 $show->addGenre($faker->randomElement($genreList));
             }
 
             $showTitle = '';
-            if ($faker->numberBetween(1, 3) > 1)
-            {
+            if ($faker->numberBetween(1, 3) > 1) {
                 $showTitle = $faker->movie();
                 $show->setType('Film');
-            }
-            else 
-            {
+            } else {
 
                 $showTitle = $faker->tvShow();
                 $show->setType('Série');
                 // créer une liste de saisons
-                    // associe la saison à un show
+                // associe la saison à un show
                 $seasonCount = $faker->tvShowTotalSeasons(1, 5);
-    
-                for($currentSeasonNumber = 1; $currentSeasonNumber <= $seasonCount; $currentSeasonNumber++)
-                {
+
+                for ($currentSeasonNumber = 1; $currentSeasonNumber <= $seasonCount; $currentSeasonNumber++) {
                     $season = new Season();
                     $season->setNumber($currentSeasonNumber);
-                    $season->setEpisodeCount($faker->tvShowTotalEpisodes(2,9));
+                    $season->setEpisodeCount($faker->tvShowTotalEpisodes(2, 9));
                     // ici on fait la jointure entre le show créé et la saison
                     $season->setShow($show);
-    
+
                     // on informe l'entité manager qu'il y a une nouvelle entité à insérer en BDD
                     $manager->persist($season);
                 }
@@ -108,12 +104,11 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $show->setTitle($showTitle);
             // on a besoin du titre du film / série
             $show->setPoster($faker->imageUrl(203, 300, $showTitle));
-            
+
 
             // ajout de castings
             $nbCastings = $faker->numberBetween(5, 20);
-            for ($currentCastingNumber = $nbCastings; $currentCastingNumber > 0; $currentCastingNumber--)
-            {
+            for ($currentCastingNumber = $nbCastings; $currentCastingNumber > 0; $currentCastingNumber--) {
                 $casting = new Casting();
 
                 $casting->setShow($show);
@@ -122,10 +117,24 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 $casting->setCreditOrder($currentCastingNumber);
                 $manager->persist($casting);
             }
+            // TODO ajouter fixture review
+            for ($i = 0; $i < $faker->numberBetween(0, 5); $i++) {
+                $review = new Review();
+
+                $review
+                    ->setUsername($faker->username())
+                    ->setEmail($faker->email())
+                    ->setContent($faker->paragraph())
+                    ->setRating($faker->numberBetween(1, 5))
+                    ->setReactions($faker->randomElements($faker->getReactions()))
+                    ->setWatchedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween("-30 days")))
+                    ->setMovie($show);
+                $manager->persist($review);
+            }
+
 
             // on informe l'entité manager qu'il y a une nouvelle entité à insérer en BDD
             $manager->persist($show);
-
         }
 
         // on demande d'exécuter les requetes
