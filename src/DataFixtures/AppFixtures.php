@@ -7,20 +7,24 @@ use App\Entity\Person;
 use App\Entity\Review;
 use App\Entity\Season;
 use App\Entity\Show;
+use App\Entity\User;
 use App\Repository\GenreRepository;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture implements DependentFixtureInterface
 {
     private $genreRepository;
+    private $passwordHasher;
 
-    public function __construct(GenreRepository $genreRepository)
+    public function __construct(GenreRepository $genreRepository, UserPasswordHasherInterface $passwordHasher)
     {
         $this->genreRepository = $genreRepository;
+        $this->passwordHasher = $passwordHasher;
     }
 
     public function load(ObjectManager $manager): void
@@ -117,7 +121,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 $casting->setCreditOrder($currentCastingNumber);
                 $manager->persist($casting);
             }
-            // TODO ajouter fixture review
+            //  ajouter fixture review
             for ($i = 0; $i < $faker->numberBetween(0, 5); $i++) {
                 $review = new Review();
 
@@ -132,9 +136,43 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($review);
             }
 
-
             // on informe l'entité manager qu'il y a une nouvelle entité à insérer en BDD
             $manager->persist($show);
+        }
+
+        // ! Users
+
+        $users = [
+            [
+                "email" => "user@gmail.com",
+                // password user
+                "password" => "user",
+                "role" => ["ROLE_USER"]
+            ],
+            [
+                "email" => "manager@gmail.com",
+                // password manager
+                "password" => "manager",
+                "role" => ["ROLE_MANAGER"]
+            ],
+            [
+                "email" => "admin@gmail.com",
+                // password admin
+                "password" => "admin",
+                "role" => ["ROLE_ADMIN"]
+            ]
+        ];
+
+        foreach ($users as $userData) {
+            // je crée un user
+            $user = new User;
+            // j'ajoute son email
+            $user->setEmail($userData["email"]);
+            // je hash le mot de pass à l'aide du passwordHasher
+            $user->setPassword($this->passwordHasher->hashPassword($user, $userData["password"]));
+            // j'ajoute les roles
+            $user->setRoles($userData["role"]);
+            $manager->persist($user);
         }
 
         // on demande d'exécuter les requetes

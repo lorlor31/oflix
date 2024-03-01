@@ -26,7 +26,6 @@ class MovieController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $show = new Show();
-        dd($show);
         $form = $this->createForm(ShowType::class, $show);
         $form->handleRequest($request);
 
