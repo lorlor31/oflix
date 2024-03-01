@@ -44,6 +44,7 @@ security:
         - { path: ^/back, roles: ROLE_MANAGER}
 
     # pour que l'admin hérite des mêmes droits que le manager -> role_hierarchy
+    # admin = aussi manager
     role_hierarchy:
         ROLE_ADMIN: ROLE_MANAGER
 

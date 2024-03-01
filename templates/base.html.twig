@@ -65,7 +65,15 @@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 								data-bs-toggle="dropdown">
-								<span>Charles</span>
+								<span>{{app.user.email}}</span> | <span>
+									{% if is_granted('ROLE_ADMIN') %}
+									Administrateur
+									{% elseif is_granted('ROLE_MANAGER') %}
+									Manager
+									{% else %}
+									Membre
+									{% endif %}
+								</span>
 								<i class="bi bi-person-square"></i>
 							</a>
 							<ul class="dropdown-menu">
