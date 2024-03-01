@@ -80,7 +80,7 @@
 								<li>
 									<a class="dropdown-item" href="#">Profil</a>
 								</li>
-								{% if is_granted("ROLE_MANAGER") %}
+								{% if is_granted("ROLE_MANAGER") and is_granted("BACK_OFFICE_ACCESS") %}
 								<li>
 									<a class="dropdown-item" href="{{path('app_back_movie_index')}}">Backoffice</a>
 								</li>

@@ -5,18 +5,25 @@ namespace App\Controller\Back;
 use App\Entity\Show;
 use App\Form\ShowType;
 use App\Repository\ShowRepository;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 #[Route('/back/movie')]
+#[IsGranted('BACK_OFFICE_ACCESS')]
 class MovieController extends AbstractController
 {
     #[Route('/', name: 'app_back_movie_index', methods: ['GET'])]
+
     public function index(ShowRepository $showRepository): Response
     {
+
         return $this->render('back/movie/index.html.twig', [
             'shows' => $showRepository->findAll(),
         ]);
