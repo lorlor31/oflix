@@ -41,6 +41,10 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            // on pourrait utiliser ici notre service pour envoyer un email
+            // $mailer->send("un utilisateur a été crée");
+
+
             return $this->redirectToRoute('app_back_user_index', [], Response::HTTP_SEE_OTHER);
         }
 

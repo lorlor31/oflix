@@ -45,7 +45,7 @@ class AccessBackOfficeVoter extends Voter
                 $time = new DateTimeImmutable("now", new DateTimeZone("Europe/Paris"));
                 $now = $time->format("H");
                 // * uncomment for testing
-                $now = 18;
+                // $now = 18;
                 // s'il est plus de 17h ou moins de 9h on bloque le backoffice
                 if ($now >= 17 || $now < 9) {
                     // si jamais on veut checker les droits d'accès d'un user dans un controller

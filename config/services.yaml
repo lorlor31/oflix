@@ -22,3 +22,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    # en premier on met le fqcn du service *full qualified class name
+    App\Service\MailerService:
+    # Les paramètres, paramétrable du constructeur du service
+        arguments:
+        # la correspondance du paramètre et sa valeur
+            $ownerMail: '%env(OWNER_EMAIL)%'
+            

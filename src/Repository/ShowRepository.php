@@ -21,11 +21,11 @@ class ShowRepository extends ServiceEntityRepository
         parent::__construct($registry, Show::class);
     }
 
-   /**
-    * @return Show[] Returns an array of Show objects
-    */
-   public function findByRatingOver(float $minRating, int $maxResults = 5, int $pageNumber = 1): array
-   {
+    /**
+     * @return Show[] Returns an array of Show objects
+     */
+    public function findByRatingOver(float $minRating, int $maxResults = 5, int $pageNumber = 1): array
+    {
 
         // ici on peut écrire du SQL 
         // ou du DQL 
@@ -47,18 +47,18 @@ class ShowRepository extends ServiceEntityRepository
 
         // returns an array of Product objects
         return $query->getResult();
-   }
+    }
 
-   public function findOneWithCastingsAndPersons($showId): ?Show
-   {
+    public function findOneWithCastingsAndPersons($showId): ?Show
+    {
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
             'SELECT s, c, p, g, z
                 FROM \App\Entity\Show AS s
-                INNER JOIN s.castings AS c 
-                INNER JOIN c.person AS p
-                INNER JOIN s.genres AS g
+                LEFT JOIN s.castings AS c 
+                LEFT JOIN c.person AS p
+                LEFT JOIN s.genres AS g
                 LEFT JOIN s.seasons AS z
                 WHERE s.id = :show_id
                 ORDER BY z.number ASC, c.creditOrder ASC
@@ -66,14 +66,14 @@ class ShowRepository extends ServiceEntityRepository
         )->setParameter('show_id', $showId);
 
         return $query->getOneOrNullResult();
-   }
-//    public function findOneBySomeField($value): ?Show
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    }
+    //    public function findOneBySomeField($value): ?Show
+    //    {
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

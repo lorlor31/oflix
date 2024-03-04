@@ -1,0 +1,10 @@
+<h1>Le film {{show.title}} a été crée</h1>
+<p>Le responsable de cette création est : {{app.user.email}}</p>
+<p>
+    Titre : {{show.title}}
+    <br>
+    Durée : {{show.duration}} min
+    <br>
+    Lien vers le film : <a href="{{absolute_url(path('app_movie_show',{id:show.id}))}}">cliquez ici pour voir le
+        film</a>
+</p>
