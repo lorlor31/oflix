@@ -28,4 +28,9 @@ services:
         arguments:
         # la correspondance du paramètre et sa valeur
             $ownerMail: '%env(OWNER_EMAIL)%'
+    App\Service\Omdb:
+    # Les paramètres, paramétrable du constructeur du service
+        arguments:
+        # la correspondance du paramètre et sa valeur
+            $apiKey: '%env(API_KEY)%'
             

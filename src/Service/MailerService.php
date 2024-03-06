@@ -31,6 +31,6 @@ class MailerService
             ->htmlTemplate($twigFile)
             ->context($data);
 
-        // $this->mailer->send($email);
+        $this->mailer->send($email);
     }
 }

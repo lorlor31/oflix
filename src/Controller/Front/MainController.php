@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Repository\ShowRepository;
+use App\Service\Omdb;
 use App\Utils\Data;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_homepage')]
-    public function home(ShowRepository $showRepository, Request $request): Response
+    public function home(ShowRepository $showRepository, Request $request, Omdb $omdb): Response
     {
         // récupérer les données
         $allMovies = $showRepository->findAll();
