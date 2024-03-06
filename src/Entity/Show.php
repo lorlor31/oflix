@@ -70,12 +70,16 @@ class Show
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'movie', orphanRemoval: true)]
     private Collection $reviews;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'shows')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
         $this->genres = new ArrayCollection();
         $this->castings = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -309,6 +313,33 @@ class Show
             if ($review->getMovie() === $this) {
                 $review->setMovie(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addShow($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeShow($this);
         }
 
         return $this;

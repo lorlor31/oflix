@@ -1,7 +1,10 @@
+{% if is_granted("ROLE_USER") %}
 
-{% set favorite_movies = app.session.get('favorite_movies') %}
-{% if favorite_movies[currentMovie.id] is defined  %}
-<a href="{{ path('app_movie_favorites_remove', {id: currentMovie.id})}}" class="movie__favorite fs-1 my-2 mx-3 link-danger"><i class="bi bi-bookmark-x-fill"></i></a>
+{% if show in app.user.shows %}
+<a href="{{ path('app_favorite_remove', {id: show.id})}}" class="movie__favorite fs-1 my-2 mx-3 link-danger"><i
+        class="bi bi-bookmark-x-fill"></i></a>
 {% else %}
-<a href="{{ path('app_movie_favorites_add', {id: currentMovie.id}) }}" class="movie__favorite fs-1 my-2 mx-3 link-danger"><i class="bi bi-bookmark-plus"></i></a>
+<a href="{{ path('app_favorite_add', {id: show.id}) }}" class="movie__favorite fs-1 my-2 mx-3 link-danger"><i
+        class="bi bi-bookmark-plus"></i></a>
+{% endif %}
 {% endif %}

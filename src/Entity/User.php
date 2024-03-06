@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -26,6 +28,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\ManyToMany(targetEntity: Show::class, inversedBy: 'users')]
+    private Collection $shows;
+
+    public function __construct()
+    {
+        $this->shows = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -95,5 +105,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Show>
+     */
+    public function getShows(): Collection
+    {
+        return $this->shows;
+    }
+
+    public function addShow(Show $show): static
+    {
+        if (!$this->shows->contains($show)) {
+            $this->shows->add($show);
+        }
+
+        return $this;
+    }
+
+    public function removeShow(Show $show): static
+    {
+        $this->shows->removeElement($show);
+
+        return $this;
     }
 }

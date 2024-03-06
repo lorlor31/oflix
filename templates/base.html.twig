@@ -54,8 +54,7 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link
-								{% block nav_favorites %}{% endblock %}" href="{{ path('app_movie_favorites') }}" <i
-								class="bi bi-bookmark"></i>
+								{% block nav_favorites %}{% endblock %}" href="{{ path('app_favorite_list') }}" <i class="bi bi-bookmark"></i>
 								Ma liste</a>
 						</li>
 						{% endblock %}
@@ -108,7 +107,14 @@
 				</div>
 			</div>
 		</nav>
-
+		{% for label, messages in app.flashes %}
+		{% for message in messages %}
+		<div class="alert alert-{{label}} alert-dismissible fade show" role="alert">
+			{{ message }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		{% endfor %}
+		{% endfor %}
 		{% block body %}Du texte par défaut
 		{% endblock %}
 

@@ -36,7 +36,7 @@ class MainController extends AbstractController
 
         // les fournir à la vue
         return $this->render('main/home.html.twig', [
-            'movieList' => $bestRatedMovies,
+            'showList' => $bestRatedMovies,
             'selectedPage' => $pageNumber,
             'maxPageCount' => $maxPageCount
         ]);
