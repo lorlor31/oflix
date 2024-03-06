@@ -37,7 +37,11 @@ class Favorite
         $this->user->addShow($show);
         $this->entityManager->flush();
 
-        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        /**
+         * @var Session
+         */
+        $session = $this->requestStack->getSession();
+        $flashBag = $session->getFlashBag();
         $flashBag->add("success", "{$show->getTitle()} a bien été ajouté en favoris");
     }
 
@@ -48,7 +52,11 @@ class Favorite
 
         $this->entityManager->flush();
 
-        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        /**
+         * @var Session
+         */
+        $session = $this->requestStack->getSession();
+        $flashBag = $session->getFlashBag();
         $flashBag->add("warning", "{$show->getTitle()} a bien été supprimé de vos favoris");
     }
 
