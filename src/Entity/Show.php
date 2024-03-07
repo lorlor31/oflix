@@ -73,6 +73,9 @@ class Show
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'shows')]
     private Collection $users;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
@@ -341,6 +344,18 @@ class Show
         if ($this->users->removeElement($user)) {
             $user->removeShow($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

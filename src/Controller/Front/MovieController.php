@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Show;
 use App\Repository\CastingRepository;
 use App\Repository\ShowRepository;
 use App\Utils\Data;
@@ -18,21 +19,16 @@ class MovieController extends AbstractController
     {
         $allMovies = $showRepository->findAll();
 
+        // TODO tous les films
         return $this->render('movie/list.html.twig', [
             'showList' => $allMovies
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function show(int $id, CastingRepository $castingRepository, ShowRepository $showRepository): Response
+    #[Route('/{slug}', name: 'show', methods: ['GET'])]
+    public function show(Show $show): Response
     {
-        $show = $showRepository->findOneWithCastingsAndPersons($id);
 
-        if (empty($show)) {
-            // le film n'existe pas en BDD
-            // 404
-            throw $this->createNotFoundException('Le film demandé n\'existe pas');
-        }
         // $movie['id'] = $id;
 
         // pour trier les castings, on peut le faire

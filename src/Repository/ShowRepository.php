@@ -67,13 +67,21 @@ class ShowRepository extends ServiceEntityRepository
 
         return $query->getOneOrNullResult();
     }
-    //    public function findOneBySomeField($value): ?Show
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+
+    public function findOneRandom()
+    {
+        // recupération de la connexion
+        $conn = $this->getEntityManager()->getConnection();
+
+        // la requete
+        $sql = '
+            SELECT * FROM `show` ORDER BY rand() LIMIT 1
+            ';
+
+        // execute
+        $resultSet = $conn->executeQuery($sql);
+
+        // returns an array (i.e. a raw data set)
+        return $resultSet->fetchAssociative();
+    }
 }

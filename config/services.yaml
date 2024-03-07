@@ -33,4 +33,18 @@ services:
         arguments:
         # la correspondance du paramètre et sa valeur
             $apiKey: '%env(API_KEY)%'
-            
+    # le fqcn du listener
+    App\EventListener\ShowListener:
+        tags:
+            -
+                # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: 'prePersist'
+                entity: 'App\Entity\Show'
+                method: 'slugifyTitle'
+            -
+                # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: 'preUpdate'
+                entity: 'App\Entity\Show'
+                method: 'slugifyTitle'
