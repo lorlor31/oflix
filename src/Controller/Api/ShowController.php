@@ -19,7 +19,7 @@ class ShowController extends AbstractController
     {
         //  appeler les films en bdd
         return $this->json($showRepository->findAll(), Response::HTTP_OK, [], [
-            "groups" => ["show", "castingLinked"]
+            "groups" => ["show", "castingLinked", "reviewLinked", "userLinked", "seasonLinked", "genreLinked"]
         ]);
     }
 }

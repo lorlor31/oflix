@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CastingRepository::class)]
+#[Groups(['casting'])]
 class Casting
 {
     #[ORM\Id]

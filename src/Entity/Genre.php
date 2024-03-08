@@ -7,17 +7,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: GenreRepository::class)]
 #[UniqueConstraint(name: "unique_name", columns: ["name"])]
+#[Groups(['genre'])]
 class Genre
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['genreLinked'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['genreLinked'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Show::class, mappedBy: 'genres')]
@@ -83,21 +87,27 @@ class Genre
 
 /**
  * #[ORM\Column(length: 50)]
+	#[Groups(['genreLinked'])]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
+	#[Groups(['genreLinked'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
+	#[Groups(['genreLinked'])]
     private ?string $content = null;
 
     #[ORM\Column(nullable: true)]
+	#[Groups(['genreLinked'])]
     private ?float $rating;
 
     #[ORM\Column]
+	#[Groups(['genreLinked'])]
     private array $reactions = [];
 
     #[ORM\Column]
+	#[Groups(['genreLinked'])]
     private ?\DateTimeImmutable $watchedAt = null;
 
     #[ORM\ManyToOne]

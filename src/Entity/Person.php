@@ -6,20 +6,25 @@ use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
+#[Groups(['person'])]
 class Person
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['personLinked'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['personLinked'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 150)]
+    #[Groups(['personLinked'])]
     private ?string $lastName = null;
 
     #[ORM\OneToMany(targetEntity: Casting::class, mappedBy: 'person')]

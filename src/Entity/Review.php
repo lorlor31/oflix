@@ -6,19 +6,24 @@ use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
+#[Groups(['review'])]
 class Review
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reviewLinked'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['reviewLinked'])]
     private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reviewLinked'])]
     private ?string $email = null;
 
     // ! exemple de contraintes de validations
@@ -27,15 +32,19 @@ class Review
         min: 2
     )]
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['reviewLinked'])]
     private ?string $content = null;
 
     #[ORM\Column]
+    #[Groups(['reviewLinked'])]
     private ?int $rating = null;
 
     #[ORM\Column]
+    #[Groups(['reviewLinked'])]
     private array $reactions = [];
 
     #[ORM\Column]
+    #[Groups(['reviewLinked'])]
     private ?\DateTimeImmutable $watchedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]

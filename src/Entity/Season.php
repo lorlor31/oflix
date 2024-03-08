@@ -5,19 +5,24 @@ namespace App\Entity;
 use App\Repository\SeasonRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SeasonRepository::class)]
+#[Groups(['season'])]
 class Season
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['seasonLinked'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['seasonLinked'])]
     private ?int $number = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['seasonLinked'])]
     private ?int $episodeCount = null;
 
     #[ORM\ManyToOne(inversedBy: 'seasons')]

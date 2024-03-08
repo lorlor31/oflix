@@ -1,0 +1,28 @@
+{# ALGO D'étoile #}
+
+{% set star = 0 %}
+
+{# ! ALGO 1 #}
+{# TODO gérer les étoiles pleines #}
+	{% for i in 1..5 %}
+		{% if i <= rating %}<i class="bi bi-star-fill"> </i>
+		{# quand j'ajoute une étoile je le note dans mon compteur d'étoile #}
+		{% set star = star + 1 %}
+	{% endif %}
+{% endfor %}
+
+{# ALGO 2 #}
+{# TODO gérer les étoiles semi #}
+{% if star < rating %}
+	<i class="bi bi-star-half"></i>
+	{% set star = star + 1 %}
+{% endif %}
+
+{# ALGO 3 #}
+{# TODO gérer les étoiles vide #}
+{# si j'ai pas encore 5 étoile #}
+	{% if star < 5 %}
+	{# je rajoute autant d'étoile qu'il manque pour arriver à 5 #}
+		{% for i in 1..(5 - star) %}<i class="bi bi-star"> </i>
+	{% endfor %}
+{% endif %}

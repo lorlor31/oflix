@@ -15,12 +15,7 @@
         <p><small>{{ show.summary }}</small>
         </p>
         <div class="d-flex" style="color: orange;">
-            {# todo afficher le bon nombre d'étoiles en fonction du rating #}
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-half"></i>
+            {% include "fragments/_stars.html.twig" with {rating:show.rating}%}
             <span class="ps-1">{{ show.rating }}</span>
         </div>
         <a href="{{ path('app_movie_show', {slug: show.slug}) }}" class="fs-1 mt-3 text-danger align-self-start">

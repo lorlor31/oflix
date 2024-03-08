@@ -20,41 +20,51 @@ class Show
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+	#[Groups(['showLinked'])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
+	#[Groups(['showLinked'])]
     private ?string $title = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::SMALLINT)]
+	#[Groups(['showLinked'])]
     private ?int $duration = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
+	#[Groups(['showLinked'])]
     private ?string $summary = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
+	#[Groups(['showLinked'])]
     private ?string $synopsis = null;
 
     #[ORM\Column(nullable: true)]
+	#[Groups(['showLinked'])]
     private ?float $rating = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(length: 10)]
+	#[Groups(['showLinked'])]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+	#[Groups(['showLinked'])]
     private ?\DateTimeImmutable $releaseDate = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(length: 100)]
+	#[Groups(['showLinked'])]
     private ?string $country = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
+	#[Groups(['showLinked'])]
     private ?string $poster = null;
 
     #[Assert\NotBlank]
@@ -78,9 +88,11 @@ class Show
     private Collection $users;
 
     #[ORM\Column(length: 255)]
+	#[Groups(['showLinked'])]
     private ?string $slug = null;
 
     #[ORM\Column(nullable: true)]
+	#[Groups(['showLinked'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
