@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CastingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CastingRepository::class)]
 class Casting
@@ -11,12 +12,15 @@ class Casting
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['castingLinked'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['castingLinked'])]
     private ?string $role = null;
 
     #[ORM\Column]
+    #[Groups(['castingLinked'])]
     private ?int $creditOrder = null;
 
     #[ORM\ManyToOne(inversedBy: 'castings')]

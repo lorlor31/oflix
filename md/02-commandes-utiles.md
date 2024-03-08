@@ -37,3 +37,6 @@
 4. Une fois le problème corrigé, terminer d'appliquer la migration "à la main" ( = jouer les requêtes suivantes dans la BDD )
 5. Vérifier que les requêtes que l'on a ajouté vont bien être annulé si la fonction down est appliquée
 6. Enregistrer la migration dans la table `doctrine_migration_versions`
+
+### Crée un controller api
+`make:controller --no-template`

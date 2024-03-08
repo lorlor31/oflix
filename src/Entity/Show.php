@@ -3,14 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\ShowRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ShowRepository::class)]
 #[ORM\Table(name: '`show`')]
+#[ORM\HasLifecycleCallbacks]
+#[Groups(['show'])]
 class Show
 {
     #[ORM\Id]
@@ -75,6 +79,9 @@ class Show
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -356,6 +363,19 @@ class Show
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): static
+    {
+        $this->updatedAt = new \DateTimeImmutable("now", new \DateTimeZone("Europe/Paris"));
 
         return $this;
     }

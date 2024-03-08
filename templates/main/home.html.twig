@@ -45,7 +45,7 @@
             {% include 'movie/_partials/_movie_list.html.twig' %}
         </div>
 
-        <nav class="col-lg-9 offset-lg-3">
+        <div class="col-lg-9 offset-lg-3">
             <ul class="pagination">
                 <li class="page-item {% if selectedPage == 1 %}disabled{% endif %}">
                     <a href="{{ path('app_homepage', {'page' : selectedPage - 1})}}" class="page-link">&laquo;</a>
@@ -61,10 +61,9 @@
                     <a class="page-link" href="{{ path('app_homepage', {'page' : selectedPage + 1})}}">&raquo;</a>
                 </li>
             </ul>
-        </nav>
+        </div>
 
     </div>
-
 </div>
 
 {% endblock %}

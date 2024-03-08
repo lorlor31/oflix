@@ -73,7 +73,8 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $show->setDuration($faker->numberBetween(90, 240));
             $show->setSummary($faker->paragraph());
             $show->setSynopsis($faker->overview());
-            $show->setRating($faker->randomFloat(1, 0, 5));
+            // plus necessaire grace aux reviews
+            // $show->setRating($faker->randomFloat(1, 0, 5));
             $show->setCountry($faker->country());
 
 
@@ -131,8 +132,9 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                     ->setContent($faker->paragraph())
                     ->setRating($faker->numberBetween(1, 5))
                     ->setReactions($faker->randomElements($faker->getReactions()))
-                    ->setWatchedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween("-30 days")))
-                    ->setMovie($show);
+                    ->setWatchedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween("-30 days")));
+                $show->addReview($review);
+
                 $manager->persist($review);
             }
 

@@ -36,7 +36,7 @@ class ReviewController extends AbstractController
             $entityManager->persist($review);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_movie_show', ["id" => $show->getId()]);
+            return $this->redirectToRoute('app_movie_show', ["slug" => $show->getSlug()]);
         }
 
         return $this->render('review/add.html.twig', [
