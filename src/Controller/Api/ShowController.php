@@ -2,6 +2,8 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Casting;
+use App\Entity\Person;
 use App\Repository\ShowRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
