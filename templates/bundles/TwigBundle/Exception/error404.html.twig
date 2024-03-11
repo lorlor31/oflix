@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Erreur Page non trouvée{% endblock %}
+{% block title %}Erreur Page non trouvée
+{% endblock %}
 
 {% block body %}
-<h1>Erreur 404</h1>
+	<h1>Erreur 404</h1>
+	<p>Reste sur le site quand même on est bien !</p>
+	<img src="https://media.gettyimages.com/id/548850291/fr/photo/georges-du-fresne-mimie-mathy-at-the-frenchtv-series-josephine-ange-gardien-la-tete-dans-les.jpg?s=612x612&w=gi&k=20&c=hu-EuaibPdoHIT_shothQhvg-pHV1woKo-3fGPR_tUM=" alt="">
 
-{{ exception.message }}
+	{{ exception.message }}
 
 {% endblock %}

@@ -1,0 +1,29 @@
+<!-- tant que nelmio cors n'est pas paramétré le fetch ne pourras pas s'executer si on utilise pas le même serveur que le back -->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALERTE LES CORSE !</title>
+</head>
+
+<body>
+    <h1>On s'en fout c'est juste pour tester les corses !</h1>
+
+    <script>
+        async function afficherFilms() {
+            const reponse = await fetch("http://127.0.0.1:8000/api/shows");
+            const films = await reponse.json();
+            return films;
+        }
+        async function load() {
+            const films = await afficherFilms();
+            console.log(films);
+        }
+        load();
+    </script>
+</body>
+
+</html>

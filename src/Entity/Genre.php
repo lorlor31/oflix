@@ -84,33 +84,3 @@ class Genre
         return $this;
     }
 }
-
-/**
- * #[ORM\Column(length: 50)]
-	#[Groups(['genreLinked'])]
-    private ?string $username = null;
-
-    #[ORM\Column(length: 255)]
-	#[Groups(['genreLinked'])]
-    private ?string $email = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-	#[Groups(['genreLinked'])]
-    private ?string $content = null;
-
-    #[ORM\Column(nullable: true)]
-	#[Groups(['genreLinked'])]
-    private ?float $rating;
-
-    #[ORM\Column]
-	#[Groups(['genreLinked'])]
-    private array $reactions = [];
-
-    #[ORM\Column]
-	#[Groups(['genreLinked'])]
-    private ?\DateTimeImmutable $watchedAt = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Show $movie = null;
- */

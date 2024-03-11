@@ -14,6 +14,9 @@ class MaintenanceSubscriber implements EventSubscriberInterface
     }
     public function onKernelResponse(ResponseEvent $event): void
     {
+        // si jamais on est pas sur la requête principale, pas besoin de relancer le subscriber et donc on évite les doublons d'execution de code
+        if (!$event->isMainRequest()) return;
+
         // je récupere les params du container
         if (!empty($this->params->get("app.maintenance"))) {
             $message = $this->params->get("app.maintenance");
