@@ -61,6 +61,7 @@ class ShowController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
+
         // on check s'il y a des erreurs de validations
         $errors = $validator->validate($show);
         if (count($errors) > 0) {
@@ -78,8 +79,9 @@ class ShowController extends AbstractController
         $entityManager->persist($show);
 
         $entityManager->flush();
-
         //  appeler les films en bdd
-        return $this->json($show, Response::HTTP_CREATED, ["Location" => $this->generateUrl("app_api_show_read", ["id" => $show->getId()])]);
+        return $this->json($show, Response::HTTP_CREATED, ["Location" => $this->generateUrl("app_api_show_read", ["id" => $show->getId()])], [
+            "groups" => ["show", "castingLinked", "reviewLinked", "userLinked", "seasonLinked", "genreLinked"]
+        ]);
     }
 }

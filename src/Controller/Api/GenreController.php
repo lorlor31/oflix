@@ -21,10 +21,7 @@ class GenreController extends AbstractController
     #[Route('/api/genres/{id}/shows', name: 'app_api_genres_getShows', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function getShowsByGenre(Genre $genre): Response
     {
-        // si jamais pas de genre on s'arrange pour envoyer quand même du json, c'est plus propre pour notre api
-        if (!$genre) {
-            return $this->json(["error" => ["message" => "Genre inexistant"]], Response::HTTP_NOT_FOUND);
-        }
+
         return $this->json($genre, Response::HTTP_OK, [], ["groups" => ["genre", "showLinked"]]);
     }
 }

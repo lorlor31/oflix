@@ -17,9 +17,9 @@ security:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
         api:
             pattern:   ^/api
+            
             stateless: true
             jwt: ~
             
@@ -56,7 +56,7 @@ security:
         # on finit toujours par la route la plus généraliste
         - { path: ^/back, roles: ROLE_MANAGER}
         # ! API
-        - { path: ^/api, roles: ROLE_ADMIN, methods: POST}
+        - { path: ^/api, roles: ROLE_MANAGER, methods: POST}
 
 
 
