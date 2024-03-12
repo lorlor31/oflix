@@ -53,6 +53,7 @@ class ShowController extends AbstractController
         //  gérer le cas ou le json n'est pas au bon format
         try {
             // je transforme le json brut en entité show
+            // ici si un genre est passé le customDenormalizer va se déclencher
             $show = $serializer->deserialize($data, Show::class, 'json');
         } catch (NotEncodableValueException $exception) {
             return $this->json([
@@ -60,7 +61,6 @@ class ShowController extends AbstractController
                 ["message" => $exception->getMessage()]
             ], Response::HTTP_BAD_REQUEST);
         }
-
 
         // on check s'il y a des erreurs de validations
         $errors = $validator->validate($show);
