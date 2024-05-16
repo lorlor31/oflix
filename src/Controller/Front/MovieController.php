@@ -2,26 +2,42 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Show;
-use App\Repository\CastingRepository;
-use App\Repository\ShowRepository;
 use App\Utils\Data;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Show;
+use App\Repository\ShowRepository;
+use App\Repository\GenreRepository;
+use App\Repository\CastingRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/movie', name: 'app_movie_')]
 class MovieController extends AbstractController
 {
     #[Route('/', name: 'list', methods: ['GET'])]
-    public function list(ShowRepository $showRepository): Response
+    public function list(ShowRepository $showRepository,GenreRepository $genreRepository): Response
     {
         $allMovies = $showRepository->findAll();
+        $genres = $genreRepository->findAll();
 
         // TODO tous les films
         return $this->render('movie/list.html.twig', [
-            'showList' => $allMovies
+            'showList' => $allMovies,
+            'genres'=>$genres
+        ]);
+    }
+
+    #[Route('/genre/{genre}', name: 'genre', methods: ['GET'])]
+    public function listFromGenre(ShowRepository $showRepository,GenreRepository $genreRepository,$genre): Response
+    {
+        $allMovies = $showRepository->findByGenre($genre);
+        $genres = $genreRepository->findAll();
+        // dd($allMovies);
+        return $this->render('movie/list.html.twig', [
+            'showList' => $allMovies,
+            'genres'=>$genres
+
         ]);
     }
 
