@@ -68,6 +68,22 @@ class ShowRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
+    public function findByGenre($genre) : array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM \App\Entity\Show AS s
+            INNER JOIN s.genres AS g
+            WHERE g.name = :genre
+            ORDER BY s.title ASC
+            '
+        )->setParameter('genre', $genre);
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
     public function findOneRandom()
     {
         // recupération de la connexion
